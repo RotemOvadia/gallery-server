@@ -8,8 +8,10 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var imagesRouter = require('./routes/images');
 var cors = require('cors');
+var router = express.Router();
 
 var app = express();
+router.all('*', cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -43,7 +45,7 @@ app.use(function(err, req, res, next) {
 });
 
 app.all('*', function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   if ('OPTIONS' == req.method) {
