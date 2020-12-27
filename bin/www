@@ -24,10 +24,24 @@ var server = http.createServer(app);
 /**
  * Create socket.io.
  */
-var io = require('socket.io')(server);
+var io = require('socket.io')(server, {
+  cors: {
+    origin: "http://localhost:4200",
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
+
 io.on('connection', (socket) => {
   console.log('a user connected');
 });
+io.on("getImages", () => {
+  console.log('getImages');
+  //socket.emit("images", './routes/images');
+});
+// io.on("getImages", () => {
+//   socket.emit("images", './routes/images');
+// });
 
 /**
  * Listen on provided port, on all network interfaces.
