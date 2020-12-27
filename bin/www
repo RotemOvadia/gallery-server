@@ -28,20 +28,22 @@ var io = require('socket.io')(server, {
   cors: {
     origin: "http://localhost:4200",
     methods: ["GET", "POST"],
-    credentials: true
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization']
   }
 });
+var imagesJson = require('../routes/gallery-feed.json');
 
 io.on('connection', (socket) => {
   console.log('a user connected');
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+  socket.on('getImages', () => {
+    socket.emit("images", imagesJson);
+    console.log('getImages socket');
+  });
 });
-io.on("getImages", () => {
-  console.log('getImages');
-  //socket.emit("images", './routes/images');
-});
-// io.on("getImages", () => {
-//   socket.emit("images", './routes/images');
-// });
 
 /**
  * Listen on provided port, on all network interfaces.
